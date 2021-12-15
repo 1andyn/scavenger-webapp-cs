@@ -11,3 +11,9 @@ This is the client sided only version which will not have a protected backend to
  - react for front end
 	 - react-spring (for animations to look nicer)
 	 - bootstrap (UI)
+
+# favicon credit:
+- Graphics Title: 1f5fa.svg
+- Graphics Author: Copyright 2020 Twitter, Inc and other contributors (https://github.com/twitter/twemoji)
+- Graphics Source: https://github.com/twitter/twemoji/blob/master/assets/svg/1f5fa.svg
+- Graphics License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
