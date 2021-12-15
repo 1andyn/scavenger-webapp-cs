@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, FormGroup, Input, Row, Spinner } from 'reactstrap';
+import { Button, Col, FormGroup, Input, InputGroup, Row, Spinner } from 'reactstrap';
 import image from '../placeholder/image.jpg'
-import '../css/app.css';
+import image2 from '../placeholder/image2.jpg'
+import image3 from '../placeholder/image3.jpg'
+import '../css/main.css';
+
+// Components (Spring Based for Nice Appearances)
+import Gallery from './Gallery'
+import TextBlock from './TextBlock'
 
 const App = () => {
 
@@ -9,11 +15,17 @@ const App = () => {
 
   const [showInterim, setShowInterim] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [next, setNext] = useState<string>('');
+ // const [next, setNext] = useState<Array:string>([]);
 
-  const [imageSource, setImageSource] = useState<string>(image);
+  let testImages = [
+    image,
+    image2,
+    image3
+  ]
+
+  const [imageSource, setImageSource] = useState<string[]>(testImages);
   const [textQueue, setTextQueue] = useState<string>('There is nothing in the queue...');
-  const [textBlock, setTextBlock] = useState<string>('Welcome to the Scavenger, click continue to Start!');
+  const [textBlock, setTextBlock] = useState<string>('Welcome to the Scavenger Hunt, click continue to Start!');
 
   /* Run Once Initialization */
   useEffect(() => {
@@ -35,31 +47,30 @@ const App = () => {
       <div className="container">
         <Row>
           <Col className='m-4' id='imageBox'>
-            <div className='d-flex justify-content-center'><img className='p-4 imageBlock' src={imageSource} /></div>
+            { Gallery(imageSource) }
           </Col>
           <Col className='m-4' id='textBox'>
-              <span className='p-4 align-middle'>{textBlock}</span>
+              { TextBlock(textBlock) }
           </Col>
         </Row>
         {
           isLoading ? (<div className='d-flex justify-content-center'><Spinner>Loading...</Spinner></div>) :
             showInterim ? (
               <Row>
-                <Col lg={5}/>
-                <Col lg={2}><Button onClick={ ()=> clickContinue()}>Continue</Button></Col>
-                <Col lg={5}/>
+                <div className="d-flex justify-content-center"><Button className ='continueButton dropShadowBtn' onClick={ ()=> clickContinue()}>Continue</Button></div>
               </Row>
             ) : (
               <Row>
                 <div className='d-flex justify-content-center'>
                   <FormGroup>
+                    <InputGroup className="continueButton">
                     <Input
                       id="inputPassword"
                       name="password"
                       placeholder="answer"
                       type="password"
                     />
-                    <Button>Submit</Button>
+                    <Button>{'>'}</Button></InputGroup>
                   </FormGroup>
                 </div>
               </Row>
