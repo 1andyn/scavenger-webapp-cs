@@ -11,7 +11,3 @@ This is the client sided only version which will not have a protected backend to
  - react for front end
 	 - react-spring (for animations to look nicer)
 	 - bootstrap (UI)
- - dotenv (for step details and password)
-
-# .dotenv file
-- used to store details and passwords, format TBD

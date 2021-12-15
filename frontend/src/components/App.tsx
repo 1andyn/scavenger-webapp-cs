@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, FormGroup, Input, Row, Spinner } from 'reactstrap';
-import logo from '../logo.svg';
 import image from '../placeholder/image.jpg'
 import '../css/app.css';
-import axios from 'axios';
 
 const App = () => {
 
@@ -36,11 +34,11 @@ const App = () => {
     <div className="d-flex align-items-center min-vh-100">
       <div className="container">
         <Row>
-          <Col lg={4} className='m-4' id='imageBox'>
+          <Col className='m-4' id='imageBox'>
             <div className='d-flex justify-content-center'><img className='p-4 imageBlock' src={imageSource} /></div>
           </Col>
-          <Col lg={4} className='m-4' id='textBox'>
-              <h1 className='p-4 align-middle'>{textBlock}</h1>
+          <Col className='m-4' id='textBox'>
+              <span className='p-4 align-middle'>{textBlock}</span>
           </Col>
         </Row>
         {
