@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, FormGroup, Input, InputGroup, Row, Spinner } from 'reactstrap';
-import image from '../placeholder/image.jpg'
-import image2 from '../placeholder/image2.jpg'
-import image3 from '../placeholder/image3.jpg'
 import text from '../datasource/rawdata.txt'
 import '../css/main.css';
 
@@ -21,16 +18,17 @@ const App = () => {
   const [hideButtons, setHidebuttons] = useState<boolean>(false)
 
   let testImages = [
-    image,
-    image2,
-    image3
+    'https://dl.dropboxusercontent.com/s/hu56wv0v1rglu6f/t1.jpg',
+    'https://dl.dropboxusercontent.com/s/izvhx8q1se29znb/t2.jpg',
+    'https://dl.dropboxusercontent.com/s/du03z2peh0pbkkn/t3.jpg'
   ]
   
   const [stepData, setStepData] = useState<{
     prompt: string, 
     images: string[],
     answer: string,
-    intermission: string}[]>([])
+    intermission: string,
+    interImages: string[]}[]>([])
 
   const [imageSource, setImageSource] = useState<string[]>(testImages);
   const [imageQueue, setImageQueue] = useState<string[]>([]);
@@ -51,18 +49,24 @@ const App = () => {
   }
 
   const clickContinue = async () => {
+    //Add some delay for appearance purposes
     setIsLoading(true)
     await timeout(500)
     setIsLoading(false)
+
     setTextBlock(textQueue); //Set text to be the next prompt
     setImageSource(imageQueue);
     setShowInterim(false); //Hide interim logic
+
+    //Prep Queue with the intermission data
     setTextQueue(stepData[stepCount].intermission)
+    setImageQueue(stepData[stepCount].interImages)
   }
 
   const checkAnswer = () => {
     if (answer === stepData[stepCount].answer) {
       setTextBlock(textQueue) //this should be showing intermission
+      setImageSource(imageQueue) //this is the intermission images
       if(stepCount+1 === stepData.length) {
         setHidebuttons(true)
       } else {
@@ -82,6 +86,7 @@ const App = () => {
     if(!initialized) {
       setInitialized(true)
       Loader(text).then( data => {
+        console.log(data)
         setStepData(data)
       })
     }

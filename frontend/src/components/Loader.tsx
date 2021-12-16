@@ -13,10 +13,10 @@ const Loader = async (text : string) => {
     const lines = fileBuffer.toString().split('\n');
 
     var lineSegment = 0
-    var result : Array<{prompt: string, images: Array<string>, answer: string, intermission: string}> = []
-    var currentStep = { prompt: '', images: [] as any, answer: '', intermission: '' }
+    var result : Array<{prompt: string, images: Array<string>, answer: string, intermission: string, interImages: Array<string>}> = []
+    var currentStep = { prompt: '', images: [] as any, answer: '', intermission: '', interImages: [] as any }
     lines.forEach((line) => {
-        switch (lineSegment % 4) {
+        switch (lineSegment % 5) {
             case 0:
                 currentStep.prompt = getParsedData('prompt:', line, lineSegment)
                 break;
@@ -28,8 +28,11 @@ const Loader = async (text : string) => {
                 break;
             case 3:
                 currentStep.intermission = getParsedData('intermission:', line, lineSegment)
+                break;
+            case 4:
+                currentStep.interImages = getImageData('interImages:', line, lineSegment)
                 result.push(currentStep);
-                currentStep = { prompt: '', images: [], answer: '', intermission: '' }
+                currentStep = { prompt: '', images: [] as any, answer: '', intermission: '', interImages: [] as any }
                 break;
             default:
                 throw Error('Line could not be parsed correctly...')
@@ -53,7 +56,7 @@ const getParsedData = (keyword : string, line : string, segment : number) => {
 const getImageData = (keyword : string, line : string, segment : number) => {
     let copy = line.replace(keyword, '')
     copy = copy.trim()
-    if (keyword !== 'images:') {
+    if (keyword !== 'images:' && keyword !== 'interImages:') {
         throw new Error(`Expected '${keyword}' keyword in line ${segment} but didn't.`)
     }
     let copyArray = copy.split(',')
