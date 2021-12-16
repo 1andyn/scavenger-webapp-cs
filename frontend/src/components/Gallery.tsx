@@ -16,7 +16,7 @@ const Gallery = (images: string[]) => {
     useEffect(() => {
         const t = setInterval(() => set(state => (state + 1) % images.length), 4000)
         return () => clearTimeout(t)
-    }, [])
+    }, [images])
 
     return (
         <div>

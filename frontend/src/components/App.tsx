@@ -39,23 +39,6 @@ const App = () => {
 
   const [answer, setAnswer] = useState<string>()
 
-  /* Run Once Initialization */
-  useEffect(() => {
-    if(!initialized) {
-      setInitialized(true)
-      Loader(text).then( data => {
-        setStepData(data)
-      })
-    }
-  }, [initialized]);
-
-  useEffect(() => {
-    if(stepData.length !== 0) {
-      initialize()
-      setIsLoading(false)
-    }
-  }, [stepData]);
-
   const timeout = (delay: number) => {
     return new Promise( res => setTimeout(res, delay) );
   }
@@ -80,7 +63,7 @@ const App = () => {
   const checkAnswer = () => {
     if (answer === stepData[stepCount].answer) {
       setTextBlock(textQueue) //this should be showing intermission
-      if(stepCount+1 == stepData.length) {
+      if(stepCount+1 === stepData.length) {
         setHidebuttons(true)
       } else {
         setTextQueue(stepData[stepCount+1].prompt)
@@ -93,6 +76,24 @@ const App = () => {
       alert("You guessed wrong nerd!")
     }
   }
+
+  /* Run Once Initialization */
+  useEffect(() => {
+    if(!initialized) {
+      setInitialized(true)
+      Loader(text).then( data => {
+        setStepData(data)
+      })
+    }
+  }, [initialized]);
+
+  useEffect(() => {
+    if(stepData.length !== 0) {
+      initialize()
+      setIsLoading(false)
+    }
+  }, [stepData]);
+
 
   return (
     <div className="d-flex align-items-center min-vh-100">
