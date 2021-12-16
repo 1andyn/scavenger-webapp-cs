@@ -15,7 +15,7 @@ const App = () => {
 
   const [showInterim, setShowInterim] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
- // const [next, setNext] = useState<Array:string>([]);
+  const [next, setNext] = useState<string[]>();
 
   let testImages = [
     image,

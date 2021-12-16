@@ -1,0 +1,12 @@
+prompt:This is the first step. To move forward, the password is the opposite of the word "goodbye"!
+images:https://dl.dropboxusercontent.com/s/onkcigy5y5jd4ap/1.jpg,https://dl.dropboxusercontent.com/s/o08uxa0bo4f5taa/2.jpg,https://dl.dropboxusercontent.com/s/218o27rdxtxbnxs/3.jpg 
+answer:hello
+intermission:That's correct. You got it!!! On to the next...
+prompt:What is the opposite of the night time?
+images:https://dl.dropboxusercontent.com/s/eysswgmppc4g8ze/DevilsBridge.png,https://dl.dropboxusercontent.com/s/fov21l52izo1jqt/GardenaItaly.png,https://dl.dropboxusercontent.com/s/ui4gno7mczqmo19/spiez.png
+answer:morning
+intermission: That's right!! You're on a roll!!! Let's see if you can answer the next one.
+prompt:What is the biggest state in contiguous United States?
+images:https://dl.dropboxusercontent.com/s/23zywqseeztgw0d/4.jpg,https://dl.dropboxusercontent.com/s/nbmmaprgbfq9p56/5.jpg,https://dl.dropboxusercontent.com/s/q9c9mj1eqj87ma6/6.jpg
+answer:texas
+intermission: You did it!! You reached the end!
