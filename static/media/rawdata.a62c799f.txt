@@ -1,0 +1,15 @@
+prompt:This is the first step. To move forward, the password is the opposite of the word "goodbye"!
+images:https://dl.dropboxusercontent.com/s/onkcigy5y5jd4ap/1.jpg,https://dl.dropboxusercontent.com/s/o08uxa0bo4f5taa/2.jpg,https://dl.dropboxusercontent.com/s/218o27rdxtxbnxs/3.jpg 
+answer:hello
+intermission:That's correct. You got it!!! On to the next...
+interImages:https://dl.dropboxusercontent.com/s/wifad65qwei0bj2/i1.jpg,https://dl.dropboxusercontent.com/s/g0vpjdbluudyloh/i2.jpg,https://dl.dropboxusercontent.com/s/0qkzuu3sol3611j/i3.jpg
+prompt:What is the opposite of the night time?
+images:https://dl.dropboxusercontent.com/s/mub3vxzfu3p2o6a/7.jpg,https://dl.dropboxusercontent.com/s/7dpnr3psifm1y8l/8.jpg,https://dl.dropboxusercontent.com/s/n5n3rgyzx8fbd30/9.jpg
+answer:morning
+intermission: That's right!! You're on a roll!!! Let's see if you can answer the next one.
+interImages:https://dl.dropboxusercontent.com/s/l9w7xfct20ldhvf/i4.jpg,https://dl.dropboxusercontent.com/s/fzqcri7arza6xro/i5.jpg,https://dl.dropboxusercontent.com/s/p8pkr379rpqll0p/i6.jpg
+prompt:What is the biggest state in contiguous United States?
+images:https://dl.dropboxusercontent.com/s/23zywqseeztgw0d/4.jpg,https://dl.dropboxusercontent.com/s/nbmmaprgbfq9p56/5.jpg,https://dl.dropboxusercontent.com/s/q9c9mj1eqj87ma6/6.jpg
+answer:texas
+intermission: You did it!! You reached the end!
+interImages:https://dl.dropboxusercontent.com/s/x8mt0rouwpqaxb2/i7.jpg,https://dl.dropboxusercontent.com/s/wd7n2sdtrobmct6/i8.jpg,https://dl.dropboxusercontent.com/s/ray6g7vzhvm4ggt/i9.jpg
