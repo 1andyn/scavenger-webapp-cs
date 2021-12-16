@@ -1,26 +1,27 @@
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-import path, { dirname } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const Loader = async (text : string) => {
 
-const filePath = path.resolve(__dirname, '../datasource/rawdata')
+    var fileBuffer
+    const resp = await fetch(text)
+    if(resp.ok) {
+        fileBuffer = await resp.text()
+    }
 
-const Loader = () => {
-    const fileBuffer = fs.readFileSync(filePath, { encoding: 'utf8' });
-    const lines = fileBuffer.split(/\r?\n/);
+    if(!fileBuffer) {
+        throw Error("File Buffer is empty!")
+    }
+    const lines = fileBuffer.toString().split('\n');
 
     var lineSegment = 0
-    var result = []
-    var currentStep = { prompt: '', images: [], answer: '', intermission: '' }
+    var result : Array<{prompt: string, images: Array<string>, answer: string, intermission: string}> = []
+    var currentStep = { prompt: '', images: [] as any, answer: '', intermission: '' }
     lines.forEach((line) => {
         switch (lineSegment % 4) {
             case 0:
                 currentStep.prompt = getParsedData('prompt:', line, lineSegment)
                 break;
             case 1:
-                currentStep.images = getParsedData('images:', line, lineSegment)
+                currentStep.images = getImageData('images:', line, lineSegment)
                 break;
             case 2:
                 currentStep.answer = getParsedData('answer:', line, lineSegment)
@@ -40,19 +41,26 @@ const Loader = () => {
     return result
 }
 
-const getParsedData = (keyword, line, segment) => {
+const getParsedData = (keyword : string, line : string, segment : number) => {
     let copy = line.replace(keyword, '')
     if (copy.length === line.length) {
         throw new Error(`Expected '${keyword}' keyword in line ${segment} but didn't.`)
     }
     copy = copy.trim()
-    if (keyword === 'images:') {
-        copy = copy.split(',')
-        copy.forEach((line) => {
-            line = line.trim()
-        })
-    }
     return copy
+}
+
+const getImageData = (keyword : string, line : string, segment : number) => {
+    let copy = line.replace(keyword, '')
+    copy = copy.trim()
+    if (keyword !== 'images:') {
+        throw new Error(`Expected '${keyword}' keyword in line ${segment} but didn't.`)
+    }
+    let copyArray = copy.split(',')
+    copyArray.forEach((line) => {
+        line = line.trim()
+    })
+    return copyArray
 }
 
 export default Loader;

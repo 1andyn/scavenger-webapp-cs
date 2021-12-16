@@ -3,19 +3,23 @@ import { Button, Col, FormGroup, Input, InputGroup, Row, Spinner } from 'reactst
 import image from '../placeholder/image.jpg'
 import image2 from '../placeholder/image2.jpg'
 import image3 from '../placeholder/image3.jpg'
+import text from '../datasource/rawdata.txt'
 import '../css/main.css';
 
 // Components (Spring Based for Nice Appearances)
 import Gallery from './Gallery'
 import TextBlock from './TextBlock'
+import Loader from './Loader'
 
 const App = () => {
 
   const [initialized, setInitialized] = useState<boolean>(false)
 
   const [showInterim, setShowInterim] = useState<boolean>(true);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [stepData, setStepData] = useState<any[]>()
   const [next, setNext] = useState<string[]>();
+  const [stepCount, setStepCounter] = useState<number>(0)
 
   let testImages = [
     image,
@@ -31,6 +35,9 @@ const App = () => {
   useEffect(() => {
     if(!initialized) {
       setInitialized(true)
+      var data = Loader(text)
+      setStepData(data)
+      setIsLoading(false)
       console.log('The hook has run!')
     }
   }, [initialized]);
@@ -38,6 +45,10 @@ const App = () => {
   const clickContinue = () => {
     setTextBlock(textQueue); //Set text to be the next prompt
     setShowInterim(false); //Hide interim logic
+
+  }
+
+  const checkAnswer = (text : string) => {
 
   }
 
