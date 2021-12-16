@@ -1,9 +1,0 @@
-.imageBlock {
-    will-change: opacity;
-    position: relative;
-    top: 0;
-    left: 100%;
-    margin-left: -100%;
-    float: left;
-    max-height: 650px;
-}
