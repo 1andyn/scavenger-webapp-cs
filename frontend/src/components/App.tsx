@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, FormGroup, Input, InputGroup, Row, Spinner } from 'reactstrap';
+import { useSpring, animated } from "react-spring";
 import text from '../datasource/rawdata.txt'
 import '../css/main.css';
 
@@ -8,6 +9,7 @@ import Gallery from './Gallery'
 import TextBlock from './TextBlock'
 import Loader from './Loader'
 
+const appearanceDelay = 250
 const App = () => {
 
   const [initialized, setInitialized] = useState<boolean>(false)
@@ -22,27 +24,27 @@ const App = () => {
     'https://dl.dropboxusercontent.com/s/izvhx8q1se29znb/t2.jpg',
     'https://dl.dropboxusercontent.com/s/du03z2peh0pbkkn/t3.jpg'
   ]
-  
+
   const [stepData, setStepData] = useState<{
-    prompt: string, 
+    prompt: string,
     images: string[],
     answer: string,
     intermission: string,
-    interImages: string[]}[]>([])
+    interImages: string[]
+  }[]>([])
 
   const [imageSource, setImageSource] = useState<string[]>(testImages);
   const [imageQueue, setImageQueue] = useState<string[]>([]);
   const [textQueue, setTextQueue] = useState<string>('There is nothing in the queue...');
   const [textBlock, setTextBlock] = useState<string>('Welcome to the Scavenger Hunt, click continue to Start!');
-
   const [answer, setAnswer] = useState<string>()
 
   const timeout = (delay: number) => {
-    return new Promise( res => setTimeout(res, delay) );
+    return new Promise(res => setTimeout(res, delay));
   }
 
   const initialize = () => {
-    if(typeof stepData != 'undefined') {
+    if (typeof stepData != 'undefined') {
       setTextQueue(stepData[stepCount].prompt)
       setImageQueue(stepData[stepCount].images)
     }
@@ -51,7 +53,7 @@ const App = () => {
   const clickContinue = async () => {
     //Add some delay for appearance purposes
     setIsLoading(true)
-    await timeout(500)
+    await timeout(appearanceDelay)
     setIsLoading(false)
 
     setTextBlock(textQueue); //Set text to be the next prompt
@@ -63,29 +65,40 @@ const App = () => {
     setImageQueue(stepData[stepCount].interImages)
   }
 
-  const checkAnswer = () => {
+  const checkAnswer = async () => {
+    setIsLoading(true)
+    await timeout(appearanceDelay)
+
     if (answer === stepData[stepCount].answer) {
       setTextBlock(textQueue) //this should be showing intermission
       setImageSource(imageQueue) //this is the intermission images
-      if(stepCount+1 === stepData.length) {
+      if (stepCount + 1 === stepData.length) {
         setHidebuttons(true)
       } else {
-        setTextQueue(stepData[stepCount+1].prompt)
-        setImageQueue(stepData[stepCount+1].images)
-        setStepCount(stepCount+1)
+        setTextQueue(stepData[stepCount + 1].prompt)
+        setImageQueue(stepData[stepCount + 1].images)
+        setStepCount(stepCount + 1)
         setAnswer('')
         setShowInterim(true)
       }
     } else {
+      setAnswer('')
       alert("You guessed wrong nerd!")
+    }
+    setIsLoading(false)
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      checkAnswer()
     }
   }
 
   /* Run Once Initialization */
   useEffect(() => {
-    if(!initialized) {
+    if (!initialized) {
       setInitialized(true)
-      Loader(text).then( data => {
+      Loader(text).then(data => {
         console.log(data)
         setStepData(data)
       })
@@ -93,7 +106,7 @@ const App = () => {
   }, [initialized]);
 
   useEffect(() => {
-    if(stepData.length !== 0) {
+    if (stepData.length !== 0) {
       initialize()
       setIsLoading(false)
     }
@@ -105,32 +118,33 @@ const App = () => {
       <div className="container">
         <Row>
           <Col className='m-4' id='imageBox'>
-            { Gallery(imageSource) }
+            {Gallery(imageSource)}
           </Col>
           <Col className='m-4' id='textBox'>
-              { TextBlock(textBlock) }
+            {TextBlock(textBlock)}
           </Col>
         </Row>
-        { hideButtons ? null :
+        {hideButtons ? null :
           isLoading ? (<div className='d-flex justify-content-center'><Spinner>Loading...</Spinner></div>) :
             showInterim ? (
               <Row>
-                <div className="d-flex justify-content-center"><Button className ='continueButton dropShadowBtn' onClick={ ()=> clickContinue()}>Continue</Button></div>
+                <div className="d-flex justify-content-center"><Button className='continueButton dropShadowBtn' onClick={() => clickContinue()}>Continue</Button></div>
               </Row>
             ) : (
               <Row>
                 <div className='d-flex justify-content-center'>
                   <FormGroup>
                     <InputGroup className="continueButton">
-                    <Input
-                      id="inputPassword"
-                      name="password"
-                      placeholder="answer"
-                      type="password"
-                      value={answer}
-                      onChange={ (e) => setAnswer(e.target.value)}
-                    />
-                    <Button onClick={ () => checkAnswer() }>{'>'}</Button></InputGroup>
+                      <Input
+                        id="inputPassword"
+                        name="password"
+                        placeholder="answer"
+                        type="password"
+                        value={answer}
+                        onKeyDown={handleKeyDown}
+                        onChange={(e) => setAnswer(e.target.value)}
+                      />
+                      <Button onClick={() => checkAnswer()}>{'>'}</Button></InputGroup>
                   </FormGroup>
                 </div>
               </Row>
