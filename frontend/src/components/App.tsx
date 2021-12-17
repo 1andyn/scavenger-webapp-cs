@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, FormGroup, Input, InputGroup, Row, Spinner } from 'reactstrap';
-import { useSpring, animated } from "react-spring";
+import { Button, Col, FormGroup, Input, InputGroup, Row, Spinner, Alert, Fade } from 'reactstrap';
 import text from '../datasource/rawdata.txt'
 import '../css/main.css';
 
@@ -9,15 +8,19 @@ import Gallery from './Gallery'
 import TextBlock from './TextBlock'
 import Loader from './Loader'
 
-const appearanceDelay = 250
+const appearanceDelaySlow = 2000
+const alertDisplay = 3500
 const App = () => {
 
   const [initialized, setInitialized] = useState<boolean>(false)
-
   const [showInterim, setShowInterim] = useState<boolean>(true)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [stepCount, setStepCount] = useState<number>(0)
   const [hideButtons, setHidebuttons] = useState<boolean>(false)
+
+  const [showGallery, setShowGallery] = useState<boolean>(false)
+  const [showButton, setShowButton] = useState<boolean>(false)
+  const [badAnswer, setBadAnswer] = useState<boolean>(false)
 
   let testImages = [
     'https://dl.dropboxusercontent.com/s/hu56wv0v1rglu6f/t1.jpg',
@@ -51,27 +54,38 @@ const App = () => {
   }
 
   const clickContinue = async () => {
-    //Add some delay for appearance purposes
     setIsLoading(true)
-    await timeout(appearanceDelay)
-    setIsLoading(false)
+    setShowGallery(false)
+    setShowButton(false)
 
-    setTextBlock(textQueue); //Set text to be the next prompt
-    setImageSource(imageQueue);
-    setShowInterim(false); //Hide interim logic
+    window.setTimeout(()=>{
+      setTextBlock(textQueue); //Set text to be the next prompt
+      setImageSource(imageQueue);
+      setShowInterim(false); //Hide interim logic
+    },appearanceDelaySlow)
 
-    //Prep Queue with the intermission data
+    window.setTimeout(()=>{
+      setShowGallery(true)
+      setShowButton(true)
+      setIsLoading(false)
+    },appearanceDelaySlow)
+
     setTextQueue(stepData[stepCount].intermission)
     setImageQueue(stepData[stepCount].interImages)
   }
 
   const checkAnswer = async () => {
     setIsLoading(true)
-    await timeout(appearanceDelay)
 
     if (answer === stepData[stepCount].answer) {
-      setTextBlock(textQueue) //this should be showing intermission
-      setImageSource(imageQueue) //this is the intermission images
+      setShowGallery(false)
+      setShowButton(false)
+
+      window.setTimeout(()=>{
+        setTextBlock(textQueue) //this should be showing intermission
+        setImageSource(imageQueue) //this is the intermission images
+      },appearanceDelaySlow)
+
       if (stepCount + 1 === stepData.length) {
         setHidebuttons(true)
       } else {
@@ -81,11 +95,21 @@ const App = () => {
         setAnswer('')
         setShowInterim(true)
       }
+
+      window.setTimeout(()=>{
+        setShowGallery(true)
+        setShowButton(true)
+        setIsLoading(false)
+      },appearanceDelaySlow)
+
     } else {
       setAnswer('')
-      alert("You guessed wrong nerd!")
+      showBadAnswer()
+      window.setTimeout(()=>{
+        setIsLoading(false)
+      },appearanceDelaySlow)
     }
-    setIsLoading(false)
+
   }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -98,9 +122,11 @@ const App = () => {
   useEffect(() => {
     if (!initialized) {
       setInitialized(true)
-      Loader(text).then(data => {
-        console.log(data)
+      Loader(text).then(async (data) => {
         setStepData(data)
+        setShowGallery(true)
+        await timeout(appearanceDelaySlow)
+        setShowButton(true)
       })
     }
   }, [initialized]);
@@ -112,18 +138,32 @@ const App = () => {
     }
   }, [stepData]);
 
+  const showBadAnswer = () => {
+    setBadAnswer(true)
+    window.setTimeout(()=>{
+      setBadAnswer(false)
+    },alertDisplay)
+  }
 
   return (
     <div className="d-flex align-items-center min-vh-100">
       <div className="container">
         <Row>
+          <Fade id='alertFade' in={badAnswer}>
+            <Alert color="danger alertText">
+              <div className="text-center">The answer entered is incorrect! Try again!</div>
+            </Alert>
+          </Fade>
+        </Row>
+        <Row>
           <Col className='m-4' id='imageBox'>
-            {Gallery(imageSource)}
+            <Fade in={showGallery}>{Gallery(imageSource)}</Fade>
           </Col>
           <Col className='m-4' id='textBox'>
-            {TextBlock(textBlock)}
+            <Fade in={showGallery} className='text-box-center'>{TextBlock(textBlock)}</Fade>
           </Col>
         </Row>
+        <Fade in={showButton}>
         {hideButtons ? null :
           isLoading ? (<div className='d-flex justify-content-center'><Spinner>Loading...</Spinner></div>) :
             showInterim ? (
@@ -150,6 +190,7 @@ const App = () => {
               </Row>
             )
         }
+        </Fade>
 
       </div>
     </div>

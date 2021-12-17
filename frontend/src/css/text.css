@@ -6,9 +6,3 @@
   text-align: left !important;
   line-height: 100%;
 }
-
-.text-items-center {
-  display: flex; 
-  align-items: center;
-  height: 100%;
-}

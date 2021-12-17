@@ -9,3 +9,23 @@
 .dropShadowBtn {
   filter: drop-shadow(0 0.1rem 0.1rem black);
 }
+
+.alertText {
+  font-weight: 500;
+}
+
+.text-box-center {
+  display: flex; 
+  align-items: center;
+  height: 100%;
+}
+
+.fade {
+  -webkit-transition-duration: 1.8s; /* Safari */
+  transition-duration: 1.8s;
+}
+
+#alertFade {
+  -webkit-transition-duration: .5s !important; /* Safari */
+  transition-duration: .5s !important;
+}
