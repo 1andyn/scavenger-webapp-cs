@@ -29,3 +29,7 @@
   -webkit-transition-duration: .5s !important; /* Safari */
   transition-duration: .5s !important;
 }
+
+.btn-secondary {
+  background-color: #6181b1;
+}
