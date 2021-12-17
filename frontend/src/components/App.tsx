@@ -37,7 +37,7 @@ const App = () => {
   const [imageQueue, setImageQueue] = useState<string[]>([]);
   const [textQueue, setTextQueue] = useState<string>('There is nothing in the queue...');
   const [textBlock, setTextBlock] = useState<string>('Welcome to the Scavenger Hunt, click continue to Start!');
-  const [answer, setAnswer] = useState<string>()
+  const [answer, setAnswer] = useState<string>('')
 
   const timeout = (delay: number) => {
     return new Promise(res => setTimeout(res, delay));
@@ -144,7 +144,7 @@ const App = () => {
                         onKeyDown={handleKeyDown}
                         onChange={(e) => setAnswer(e.target.value)}
                       />
-                      <Button onClick={() => checkAnswer()}>{'>'}</Button></InputGroup>
+                      <Button disabled={answer === ''} onClick={() => checkAnswer()}>{'>'}</Button></InputGroup>
                   </FormGroup>
                 </div>
               </Row>
