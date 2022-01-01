@@ -58,17 +58,17 @@ const App = () => {
     setShowGallery(false)
     setShowButton(false)
 
-    window.setTimeout(()=>{
+    window.setTimeout(() => {
       setTextBlock(textQueue); //Set text to be the next prompt
       setImageSource(imageQueue);
       setShowInterim(false); //Hide interim logic
-    },appearanceDelaySlow)
+    }, appearanceDelaySlow)
 
-    window.setTimeout(()=>{
+    window.setTimeout(() => {
       setShowGallery(true)
       setShowButton(true)
       setIsLoading(false)
-    },appearanceDelaySlow)
+    }, appearanceDelaySlow)
 
     setTextQueue(stepData[stepCount].intermission)
     setImageQueue(stepData[stepCount].interImages)
@@ -81,10 +81,10 @@ const App = () => {
       setShowGallery(false)
       setShowButton(false)
 
-      window.setTimeout(()=>{
+      window.setTimeout(() => {
         setTextBlock(textQueue) //this should be showing intermission
         setImageSource(imageQueue) //this is the intermission images
-      },appearanceDelaySlow)
+      }, appearanceDelaySlow)
 
       if (stepCount + 1 === stepData.length) {
         setHidebuttons(true)
@@ -96,18 +96,18 @@ const App = () => {
         setShowInterim(true)
       }
 
-      window.setTimeout(()=>{
+      window.setTimeout(() => {
         setShowGallery(true)
         setShowButton(true)
         setIsLoading(false)
-      },appearanceDelaySlow)
+      }, appearanceDelaySlow)
 
     } else {
       setAnswer('')
       showBadAnswer()
-      window.setTimeout(()=>{
+      window.setTimeout(() => {
         setIsLoading(false)
-      },appearanceDelaySlow)
+      }, appearanceDelaySlow)
     }
 
   }
@@ -140,21 +140,19 @@ const App = () => {
 
   const showBadAnswer = () => {
     setBadAnswer(true)
-    window.setTimeout(()=>{
+    window.setTimeout(() => {
       setBadAnswer(false)
-    },alertDisplay)
+    }, alertDisplay)
   }
 
   return (
     <div className="d-flex align-items-center min-vh-100">
       <div className="container">
-        <Row>
-          <Fade id='alertFade' in={badAnswer}>
-            <Alert color="danger alertText">
-              <div className="text-center">The answer entered is incorrect! Try again!</div>
-            </Alert>
-          </Fade>
-        </Row>
+        <Fade className='alertOntop' id='alertFade' in={badAnswer} >
+          <Alert color="danger alertText">
+            <span>The answer entered is incorrect! Try again!</span>
+          </Alert>
+        </Fade>
         <Row>
           <Col className='m-4' id='imageBox'>
             <Fade in={showGallery}>{Gallery(imageSource)}</Fade>
@@ -164,34 +162,35 @@ const App = () => {
           </Col>
         </Row>
         <Fade in={showButton}>
-        {hideButtons ? null :
-          isLoading ? (<div className='d-flex justify-content-center'><Spinner>Loading...</Spinner></div>) :
-            showInterim ? (
-              <Row>
-                <div className="d-flex justify-content-center"><Button className='continueButton dropShadowBtn' onClick={() => clickContinue()}>Continue</Button></div>
-              </Row>
-            ) : (
-              <Row>
-                <div className='d-flex justify-content-center'>
-                  <FormGroup>
-                    <InputGroup className="continueButton">
-                      <Input
-                        id="inputPassword"
-                        name="password"
-                        placeholder="answer"
-                        type="password"
-                        value={answer}
-                        onKeyDown={handleKeyDown}
-                        onChange={(e) => setAnswer(e.target.value)}
-                      />
-                      <Button disabled={answer === ''} onClick={() => checkAnswer()}>{'>'}</Button></InputGroup>
-                  </FormGroup>
-                </div>
-              </Row>
-            )
-        }
+          <Row className='btn-max-height'>
+            {hideButtons ? null :
+              isLoading ? (<Fade in={isLoading}><div className='d-flex justify-content-center'><Spinner>Loading...</Spinner></div></Fade>) :
+                showInterim ? (
+                  <Fade in={showInterim}><div className="d-flex justify-content-center"><Button className='continueButton dropShadowBtn' onClick={() => clickContinue()}>Continue</Button></div></Fade>
+                ) : (
+                  <Fade in={!showInterim}>
+                    <div className='d-flex justify-content-center'>
+                      <FormGroup>
+                        <InputGroup className="continueButton">
+                          <Input
+                            id="inputPassword"
+                            name="password"
+                            placeholder="answer"
+                            type="password"
+                            value={answer}
+                            onKeyDown={handleKeyDown}
+                            onChange={(e) => setAnswer(e.target.value)}
+                          />
+                          <Button disabled={answer === ''} onClick={() => checkAnswer()}>
+                            <i className="fas fa-fighter-jet"></i>
+                          </Button></InputGroup>
+                      </FormGroup>
+                    </div>
+                  </Fade>
+                )
+            }
+          </Row>
         </Fade>
-
       </div>
     </div>
   );

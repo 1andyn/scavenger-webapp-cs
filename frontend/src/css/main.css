@@ -1,5 +1,12 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .continueButton {
-  width: 200px
+  width: 200px;
+  border-radius: 50px;
 }
 
 .dropShadow {
@@ -10,9 +17,7 @@
   filter: drop-shadow(0 0.1rem 0.1rem black);
 }
 
-.alertText {
-  font-weight: 500;
-}
+
 
 .text-box-center {
   display: flex; 
@@ -25,11 +30,48 @@
   transition-duration: 1.8s;
 }
 
+/* Button CSS */
+.btn-secondary {
+  background-color: #6181b1;
+}
+
+.btn-max-height {
+  max-height: 38px;
+}
+
+/* Alert CSS */
 #alertFade {
   -webkit-transition-duration: .5s !important; /* Safari */
   transition-duration: .5s !important;
 }
 
-.btn-secondary {
-  background-color: #6181b1;
+.alertText {
+  font-weight: 500;
+}
+
+.alert-danger {
+  border-radius: 50px;
+  color: white;
+  background-color: #e4636e;
+  border-color: #e4636e;
+  filter: drop-shadow(0 0.1rem 0.1rem black);
+}
+
+.alertOntop {
+  z-index: 2 !important;
+  top: 5vh;
+  width: 100%;
+  position: absolute !important;
+  display: flex;
+  justify-content: center;
+}
+
+/* Round Pill the Appearance of Inputs and Buttons */
+
+.form-control {
+  border-radius: 50px;
+}
+
+.btn{
+  border-radius: 50px;
 }
