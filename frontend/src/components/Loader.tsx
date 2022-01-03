@@ -1,5 +1,5 @@
 
-const Loader = async (text : string) => {
+export const Loader = async (text : string) => {
 
     var fileBuffer
     const resp = await fetch(text)
@@ -44,7 +44,7 @@ const Loader = async (text : string) => {
     return result
 }
 
-const getParsedData = (keyword : string, line : string, segment : number) => {
+export const getParsedData = (keyword : string, line : string, segment : number) => {
     let copy = line.replace(keyword, '')
     if (copy.length === line.length) {
         throw new Error(`Expected '${keyword}' keyword in line ${segment} but didn't.`)
@@ -53,7 +53,7 @@ const getParsedData = (keyword : string, line : string, segment : number) => {
     return copy
 }
 
-const getImageData = (keyword : string, line : string, segment : number) => {
+export const getImageData = (keyword : string, line : string, segment : number) => {
     let copy = line.replace(keyword, '')
     copy = copy.trim()
     if (keyword !== 'images:' && keyword !== 'interImages:') {
@@ -65,5 +65,3 @@ const getImageData = (keyword : string, line : string, segment : number) => {
     })
     return copyArray
 }
-
-export default Loader;

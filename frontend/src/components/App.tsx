@@ -6,7 +6,7 @@ import '../css/main.css';
 // Components (Spring Based for Nice Appearances)
 import Gallery from './Gallery'
 import TextBlock from './TextBlock'
-import Loader from './Loader'
+import { Loader } from './Loader'
 
 const appearanceDelaySlow = 2000
 const alertDisplay = 3500
