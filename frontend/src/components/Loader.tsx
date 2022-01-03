@@ -1,4 +1,3 @@
-
 export const Loader = async (text : string) => {
 
     var fileBuffer
